@@ -1,0 +1,102 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register Vehicles</title>
+    <link rel="stylesheet" href="{% static 'parking/style.css' %}">
+</head>
+<body>
+    <header class="header">
+        <div class="logo">
+            smart parking
+        </div>
+        <nav>
+            <a href="/parking/">Home</a>
+            <a href="/parking/register/">Register Vehicle</a>
+            <a href="/parking/vehicles/">Vehicles</a>
+        </nav>
+    </header>
+    <main>
+        <h2>Regitered Vehicles</h2>
+        <h3>Instant Vehicle Search (AJAX)</h3>
+        <input type="text" id="ajaxSearch" placeholder="Type a vehicle number...">
+        <p id="ajaxStatus"></p>
+        <div id="ajaxResults"></div>
+        <script>
+            const searchInput=document.getElementById('ajaxSearch');
+            const statusMessage=document.getElementById('ajaxStatus');
+            const resultsContainer=document.getElementById('ajaxResults');
+            searchInput.addEventListener('input',async function(){
+                const search=this.value.trim();
+                resultsContainer.replaceChildren();
+                if (search===''){
+                    statusMessage.textContent='';
+                    return;
+                }
+                statusMessage.textContent='Searching...'
+                try{
+                    const url="{% url 'ajax_vehicle_search' %}" + "?search=" + encodeURIComponent(search);
+                    const response=await fetch(url);
+                    console.log('Response status:',response.status);
+                    if (!response.ok){
+                        throw new Error('HTTP error:'+response.status);
+                    }
+                    const data=await response.json();
+                    resultsContainer.replaceChildren();
+                    if (data.vehicles.length===0){
+                        statusMessage.textContent='No vehicles found.';
+                        return;
+                    }
+                    statusMessage.textContent=data.vehicles.length + ' vehicles(s) found.';
+                    data.vehicles.forEach(function (vehicle){
+                        const item=document.createElement('p');
+                        item.textContent=vehicle.vehicle_number+' - '+vehicle.vehicle_type;
+                        resultsContainer.appendChild(item);
+                    });    
+                } catch (error){
+                    console.error('AJAX Search Error:',error);
+                    statusMessage.textContent='Error:'+error.message;
+                }
+            });
+        </script>
+        <form method="GET">
+            <input type="text" name="search" placeholder="Search vehicle number" value="{{search}}">
+            <select name="vehicle_type" >
+                <option value="">All Vehicle Types</option>
+                {% for type in vehicle_types %}
+                    <option value={{type}} {% if vehicle_type == type %} selected{% endif %} {{type}}>{{type}}</option>
+                {% endfor %}
+            </select>
+            <button type="submit">Search</button>
+            <a href="/parking/vehicles/">Clear Filters</a>
+        </form>
+        <table>
+            <thead>
+                <tr>
+                    <th>Vehicle Number</th>
+                    <th>Vehicle Type</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for vehicle in vehicles%}
+                    <tr>
+                        <td>{{vehicle.vehicle_number}}</td>
+                        <td>{{vehicle.vehicle_type}}</td>
+                    </tr>
+                {% empty %}
+                    <tr>
+                        <td colspan="2">{% if search %}
+                                            No vehicles found for "{{search}}"
+                                        {% else %}
+                                            No vehicles registered yet.
+                                        {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </main>
+</body>
+</html>

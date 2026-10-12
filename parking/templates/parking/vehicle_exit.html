@@ -1,0 +1,37 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vehicle Exit</title>
+    <link rel="stylesheet" href="{% static 'parking/style.css' %}">
+</head>
+<body>
+    <header class="header">
+        <div class="logo">
+            smart parking
+        </div>
+        <nav>
+            <a href="/parking/">Home</a>
+            <a href="/parking/register/">Register Vehicle</a>
+            <a href="/parking/vehicles/">vehicles</a>
+            <a href="/parking/exit/">Vehicel Exit</a>
+        </nav>
+    </header>
+    <main>
+        <h2>Vehicle Exit</h2>
+        {% if messages %}
+            {% for message in messages %}
+                <p>{{message}}</p>
+            {% endfor %}
+        {% endif %}
+        <form method="POST">
+            {% csrf_token %}
+            <label for="vehicle_number">Vehicel Number</label>
+            <input type="text" id="vehicle_number" name="vehicle_number" required>
+            <button type="submit">Vehicel Exit</button>
+        </form>
+    </main>
+</body>
+</html>

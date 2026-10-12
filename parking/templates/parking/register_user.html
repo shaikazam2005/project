@@ -1,0 +1,30 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Account</title>
+    <link rel="stylesheet" href="{% static 'parking/style.css' %}">
+</head>
+<body>
+    <header class="header">
+        <div class="logo">
+            smart parking
+        </div>
+        <nav>
+            <a href="/parking/">Home</a>
+            <a href="/parking/register-user/">Create Account</a>
+            <a href="/parking/login/">Login</a>
+        </nav>
+    </header>
+    <main>
+        <h2>Create Account</h2>
+        <form method="POST">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Register</button>
+        </form>
+    </main>
+</body>
+</html>

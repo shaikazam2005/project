@@ -1,0 +1,154 @@
+body
+{
+    font-family: Arial,sans-serif;
+    margin:0;
+    background-color: whitesmoke;
+}
+h1
+{
+    text-align: center;
+}
+.header
+{
+    background-color: white;
+    padding: 20px;
+    text-align: center;
+}
+.header h1
+{
+    margin: 0;
+}
+.header p
+{
+    margin: 10px 0 0;
+}
+.summary
+{
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin: 30px;
+}
+.card
+{
+    background-color: white;
+    padding: 20px;
+    width: 180px;
+    text-align: center;
+    border-radius: 8px;
+}
+.card h3
+{
+    margin: 0;
+}
+.card p
+{
+    font-size: 30px;
+    margin: 15px 0 0;
+}
+.parking-section
+{
+    margin: 30px;
+}
+.parking-grid
+{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+.slot-card
+{
+    background-color: white;
+    width: 150px;
+    padding: 20px;
+    text-align: center;
+    border-radius: 8px;
+}
+.slot-card h3
+{
+    margin: 0;
+}
+.slot-card p
+{
+    margin-bottom: 0;
+}
+.slot-card.available
+{
+    border: 3px solid green;
+}
+.slot-card.occupied
+{
+    border: 3px solid red;
+}
+.slot-card.available p
+{
+    color: green;
+    font-weight: bold;
+}
+.slot-card.occupied p
+{
+    color: red;
+    font-weight: bold;
+}
+.header
+{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 40px;
+    background-color: white;
+}
+.logo
+{
+    font-size: 24px;
+    font-weight: bold;
+}
+nav
+{
+    display: flex;
+    gap: 25px;
+}
+nav a
+{
+    text-decoration: none;
+    color: black;
+    font-weight: bold;
+}
+table
+{
+    width: 80%;
+    margin: 30px auto;
+    border-collapse: collapse;
+    background-color: white;
+}
+th,td
+{
+    padding: 15px;
+    border: 1px solid lightgray;
+    text-align: center;
+}
+th
+{
+    background-color: lightgray;
+}
+
+.receipt
+{
+    width: 400px;
+    margin:30px auto;
+    padding: 25px;
+    background-color: white;
+    border: 1px solid lightgray;
+    border-radius: 8px;
+}
+.receipt p
+{
+    padding: 10px;
+    border-bottom: 1px solid lightgray;
+}
+.receipt p:last-child
+{
+    border-bottom: none;
+    font-size: 20px;
+    font-weight: bold;
+}

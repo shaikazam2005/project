@@ -1,0 +1,98 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Dashboard</title>
+    <link rel="stylesheet" href="{% static 'parking/style.css' %}">
+</head>
+<body>
+    <header class="header">
+        <div class="logo">
+            smart parking
+        </div>
+        <nav>
+            <a href="/parking/dashboard/">Home</a>
+            <a href="/parking/register/">Register Vehicle</a>
+            <a href="/parking/vehicles/">My Vehicels</a>
+            <a href="/parking/logout/">Logout</a>
+        </nav>
+    </header>
+    <main>
+        <h2>Welcome to your Dashboard</h2>
+        <p>Welcome,{{request.user.username}}</p>
+        <h3>My parking Dashboard</h3>
+        <p>Total Parking Visits:{{total_visits}}</p>
+        <p>Total Parking Revenue:{{total_revenue}}</p>
+        <p>Average Parking Fee:{{average_fee}}</p>
+        <p>Highest Parking Fee:{{highest_fee}}</p>
+        <p>Lowest Parking Fee:{{lowest_fee}}</p>
+        <p>You are successfully logged in.</p>
+        <h3>Vehicle Visit Summary</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Vehicle Number</th>
+                    <th>Vehicle Type</th>
+                    <th>Total Visits</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for vehicle in vehicles%}
+                    <tr>
+                        <td>{{vehicle.vehicle_number}}</td>
+                        <td>{{vehicle.vehicle_type}}</td>
+                        <td>{{vehicle.visit_count}}</td>
+                    </tr>
+                {% empty %}
+                    <tr>
+                        <td colspan="3">No vehicles registered yet.</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <h3>Vehicle Numbers</h3>
+        {% for number in vehicle_numbers%}
+            <P>{{number}}</P>
+        {% empty %}
+            <p>No vehicle numbers found</p>
+        {% endfor %}
+        <h3>My Parking History</h3>
+        <form method="GET">
+            <input type="text" name="search" placeholder="Search vehicle number" value="{{search}}">
+            <button type="submit">Search</button>
+            <a href="/parking/dashboard/">Clear</a>
+        </form>
+        {% if search %}
+            <p>Showing parking history for: <strong>{{ search }}</strong></p>
+        {% endif %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Vehicle</th>
+                    <th>Slot</th>
+                    <th>Entry Time</th>
+                    <th>Exit Time</th>
+                    <th>Parking Fee</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for record in parking_records %}
+                    <tr>
+                        <td>{{record.vehicle.vehicle_number}}</td>
+                        <td>{{record.slot.slot_number}}</td>
+                        <td>{{record.entry_time}}</td>
+                        <td>{{record.exit_time|default:"currently parked"}}</td>
+                        <td>{{record.parking_fee|default:"-"}}</td>
+                    </tr>
+                {% empty %}
+                    <tr>
+                        <td colspan="5">No parking history available.</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </main>
+</body>
+</html>

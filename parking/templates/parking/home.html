@@ -1,0 +1,84 @@
+{%load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="{% static 'parking/style.css' %}">
+</head>
+<body>
+    <header class="header">
+        <div class="logo">
+            smart parking
+        </div>
+        <nav>
+            <a href="/parking/">Home</a>
+            <a href="/parking/register/">Register Vehicle</a>
+            <a href="/parking/vehicles/">Vehicles</a>
+            <a href="/parking/exit/">Vehicel Exit</a>
+            <a href="/parking/logout/">Logout</a>
+            <a href="">Parking History</a>
+        </nav>
+    </header>
+    <main>
+        <h2>parking dashboard</h2>
+        <div class="summary">
+            <div class="card">
+                <h3>Total Slots</h3>
+                <p>{{total_slots}}</p>
+            </div>
+            <div class="card">
+                <h3>-Available</h3>
+                <p>{{available_slots}}</p>
+            </div>
+            <div class="card">
+                <h3>-Occupied</h3>
+                <p>{{occupied_slots}}</p>
+            </div>
+        </div>
+        <section class="parking_section">
+            <h2>parking slots</h2>
+            <div class="parking-grid">
+                {% for slot in slots%}
+                    {% if slot.is_occupied %}
+                        <div class="slot-card occupied">
+                            <h3>{{slot.slot_number}}</h3>
+                            <p>-Occupied</p>
+                        </div>
+                    {%else %}
+                        <div class="slot-card available">
+                            <h3>{{slot.slot_number}}</h3>
+                            <p>Available</p>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </section>
+    </main>
+    {% for slot in slots%}
+        <p>
+            Slot:{{slot.slot_number}}
+            {% if slot.is_occupied %}
+                -Occupied
+            {% else %}
+                -Available
+            {% endif %}
+        </p>
+    {% endfor %}
+    <P>Parking management system is working successfully</P>    
+</body>
+<div>
+    Current Time:
+    <span id="currentTime"></span>
+</div>
+<script>
+    function updatetime()
+    {
+        const now=new Date();
+        document.getElementById('currentTime').textContent=now.toLocaleTimeString();
+    }
+    updatetime();
+    setInterval(updateTime,1000);
+</script>
+</html>

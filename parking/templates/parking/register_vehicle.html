@@ -1,0 +1,47 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register Vehicle</title>
+    <link rel="stylesheet" href="{% static 'parking/style.css' %}">
+</head>
+<body>
+    <header class="header">
+        <div class="logo">
+            smart parking
+        </div>
+        <nav>
+            <a href="/parking/">Home</a>
+            <a href="/parking/register/">Register Vehicle</a>
+            <a href="">Parking History</a>
+        </nav>
+    </header>
+    <main>
+        <h2>Register Vehicle</h2>
+        {% if messages %}
+            {% for message in messages %}
+                <p>{{message}}</p>
+            {% endfor %}
+        {% endif %}
+        <form method="POST" novalidateonsubmit="return validateVehicleForm();">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Register Vehicle</button>
+        </form>
+    </main>
+    <script>
+        function validateVehicleForm()
+        {
+            const vehicleNumber=document.getElementById('id_vehicle_number').value;
+            if (vehicleNumber.trim()==='')
+            {
+                alert('please enter vehicle number:');
+                return false;
+            }
+            return true;
+        }
+    </script>
+</body>
+</html>
